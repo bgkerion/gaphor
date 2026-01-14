@@ -1,8 +1,10 @@
 import logging
 from pathlib import Path
 
+from gaphor.core import gettext
 from gaphor.core.modeling import Diagram
 from gaphor.diagram.export import escape_filename
+from gaphor.ui.statuswindow import StatusWindow
 
 log = logging.getLogger(__name__)
 
@@ -17,7 +19,18 @@ def pkg2dir(package):
 
 
 def export_all(factory, path, save_fn, suffix, name_re=None, underscore=None):
-    for diagram in factory.select(Diagram):
+    diagrams = list(factory.select(Diagram))
+    n_diagrams = len(diagrams)
+    step = int(100 / n_diagrams)
+    status_window = StatusWindow(
+        title=gettext("Exporting all Diagrams..."),  # FIXME translate
+        message=gettext(f"Exporting {n_diagrams} Diagrams...").format(
+            n_diagrams=n_diagrams
+        ),
+        # parent=self.parent_window,
+    )
+    progress = 0
+    for diagram in diagrams:
         odir = f"{path}/{pkg2dir(diagram.owner)}"
         # just diagram name
         dname = escape_filename(diagram.name)
@@ -40,5 +53,8 @@ def export_all(factory, path, save_fn, suffix, name_re=None, underscore=None):
             Path(odir).mkdir(parents=True)
 
         log.info("rendering: %s -> %s...", pname, outfilename)
-
+        progress += step
+        log.debug(progress)
+        status_window.progress_synch(progress)
         save_fn(outfilename, diagram)
+    status_window.done()

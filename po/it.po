@@ -3562,3 +3562,10 @@ msgstr "generale: Generale"
 
 #~ msgid "New _Package"
 #~ msgstr "Nuovo _Pacchetto"
+
+#: gaphor/plugins/diagramexport/exportall.py:26
+msgid: "Exporting all Diagrams..."
+msgstr: "Tutti Diagrammi in esportazione..."
+
+msgid: "Exporting {n_diagrams} Diagrams..."
+msgstr: "Esportando {n_diagrams} Diagrammi..."

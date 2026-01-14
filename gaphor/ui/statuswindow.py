@@ -43,6 +43,11 @@ class StatusWindow:
             self.progress_bar.set_fraction(min(percentage, 100.0) / 100.0)
         await sleep(0)
 
+    def progress_synch(self, percentage: float):
+        """Update progress percentage (0..100)."""
+        if self.progress_bar:
+            self.progress_bar.set_fraction(min(percentage, 100.0) / 100.0)
+
     def done(self):
         """Close the status window."""
         if self.window:
