@@ -23,7 +23,7 @@ def export_all(factory, path, save_fn, suffix, name_re=None, underscore=None):
     n_diagrams = len(diagrams)
     step = int(100 / n_diagrams)
     status_window = StatusWindow(
-        title=gettext("Exporting all Diagrams..."),  # FIXME translate
+        title=gettext("Exporting all Diagrams..."),
         message=gettext(f"Exporting {n_diagrams} Diagrams...").format(
             n_diagrams=n_diagrams
         ),
@@ -56,5 +56,6 @@ def export_all(factory, path, save_fn, suffix, name_re=None, underscore=None):
         progress += step
         log.debug(progress)
         status_window.progress_synch(progress)
+        # sleep(0.1)
         save_fn(outfilename, diagram)
     status_window.done()
